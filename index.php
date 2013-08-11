@@ -4,9 +4,9 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script>
 function show_confirm(v) {
-  var r=confirm("This will delete table "+v+ " ! Press 'OK' to continue or 'Cancel' to abort !");
+  var r=confirm("This will delete the selected table ! Press 'OK' to continue or 'Cancel' to abort !");
   if (r==true) {
-    window.location.href="deltbl.php?id="+v;
+	window.location.href="deltbl.php?id="+v;
   }
 }
 </script>
@@ -21,6 +21,7 @@ function show_confirm(v) {
 
 <h1>
 <?php
+session_start();
 @include("db.php");
 if(isset($_GET['id'])) {
   echo($_GET['id']);
@@ -66,16 +67,19 @@ Number of Fields :</td><td>
 Existing tables </h1></th></tr>
 <?php
 $qry="show tables in ".MY_DB;
+$key = time();
+$_SESSION['passkey'] = $key;
 $r=mysql_query($qry);
 $res=mysql_fetch_array($r);
 while($res) {
   echo('<tr><td>');
   echo('<a href=display.php?id='.$res[0].'>'.$res[0].'</a></td>');
-  echo('<td><button onClick=show_confirm("'.$res[0].'")>Drop</button>');
+  echo('<td><button onclick=show_confirm("'.$key.base64_encode($res[0]).'")>Drop</button>');
   echo('</td></tr>');
   $res=mysql_fetch_array($r);
 }
 ?>
+
 </table>
 </div>
 <div align="center">
