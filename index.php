@@ -74,7 +74,7 @@ $res=mysql_fetch_array($r);
 while($res) {
   echo('<tr><td>');
   echo('<a href=display.php?id='.$res[0].'>'.$res[0].'</a></td>');
-  echo('<td><button onclick=show_confirm("'.$key.base64_encode($res[0]).'")>Drop</button>');
+  echo('<td><button onclick=show_confirm("'.md5($key).base64_encode($res[0]).'")>Drop</button>');
   echo('</td></tr>');
   $res=mysql_fetch_array($r);
 }
